@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aziz will you be my Valentine ❤?</title>
+    <style>
+        /* General styling */
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: pink;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Container for the content */
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            height: auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Styling for the question */
+        .question {
+            font-size: 24px;
+            margin-top: 20px;
+            position: relative; /* Added for positioning */
+        }
+
+        /* Styling for the buttons container */
+        .buttons {
+            margin-top: 20px;
+            position: relative;
+            height: 100px;
+        }
+
+        /* General button styling */
+        button {
+            font-size: 20px;
+            padding: 10px;
+            margin: 10px;
+            cursor: pointer;
+            position: absolute;
+            border: none;
+            border-radius: 10px;
+            color: white;
+        }
+
+        /* Styling for the "Yes" button */
+        #yesButton {
+            background-color: green;
+            left: 20%; /* Switched position */
+        }
+
+        /* Styling for the "No" button */
+        #noButton {
+            background-color: red;
+            left: 60%; /* Switched position */
+        }
+
+        /* Hidden elements */
+        .hidden {
+            display: none;
+        }
+
+        /* Styling for the GIF and image container */
+        .gif-container img, #valentinePic {
+            width: 300px;
+            height: auto;
+        }
+
+        /* Heart animation styling */
+        .hearts {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: red;
+            clip-path: polygon(50% 0%, 100% 40%, 80% 100%, 50% 80%, 20% 100%, 0% 40%);
+            animation: floatUp 1s ease-out forwards;
+        }
+
+        /* Keyframes for the heart animation */
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100px); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Initial question -->
+        <div id="question1" class="question">Will you be my Valentine? ❤️</div>
+        
+        <!-- Buttons container -->
+        <div id="buttons1" class="buttons">
+            <!-- "No" button is now on the left -->
+            <button id="noButton">No</button>
+            <!-- "Yes" button is now on the right -->
+            <button id="yesButton" onclick="yesResponse()">Yes</button>
+        </div>
+
+        <!-- Hidden result section -->
+        <div id="result" class="hidden">
+            <div id="quote" class="question hidden">"Nhebek barcha, Raby ykhalik leya ya aghla ma andy"</div>
+            <img id="valentinePic" src="https://cdn.discordapp.com/attachments/1255310082217087097/1329912907474927738/image.png?ex=67b052a9&is=67af0129&hm=584e16308e341fe4e082186ea5a1d1dbb5f937be73e0822a5cf73cab663a9c59&" alt="Valentine Image">
+        </div>
+
+        <!-- Hidden GIF container -->
+        <div id="gifContainer" class="hidden gif-container">
+            <img src="https://arclegalfunding.org/wp-content/uploads/cat-sad-cat.gif.gif" alt="Sad Cat">
+        </div>
+    </div>
+
+    <!-- SoundCloud iframe (hidden by default) -->
+    <iframe id="soundcloudPlayer" width="0" height="0" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https://soundcloud.com/xena-anni/elgrandetoto-blue-love-lyrics-video&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+
+    <!-- Confetti library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- SoundCloud Widget API -->
+    <script src="https://w.soundcloud.com/player/api.js"></script>
+
+    <script>
+        // Initialize the SoundCloud player
+        let player = SC.Widget(document.getElementById("soundcloudPlayer"));
+
+        // Function for when "Yes" is clicked
+        function yesResponse() {
+            // Hide the question and buttons
+            document.getElementById('question1').classList.add('hidden');
+            document.getElementById('buttons1').classList.add('hidden');
+
+            // Show the result and quote
+            document.getElementById('result').classList.remove('hidden');
+            document.getElementById('quote').classList.remove('hidden');
+
+            // Hide the sad cat GIF
+            document.getElementById('gifContainer').classList.add('hidden');
+
+            // Play the SoundCloud song
+            player.play();
+
+            // Trigger confetti effect
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+
+            // Create hearts animation
+            for (let i = 0; i < 20; i++) {
+                let heart = document.createElement("div");
+                heart.className = "hearts";
+                heart.style.left = Math.random() * 100 + "%";
+                heart.style.top = Math.random() * 100 + "%";
+                document.querySelector(".container").appendChild(heart);
+                setTimeout(() => heart.remove(), 1000);
+            }
+        }
+
+        // Function to move the "No" button on top of the GIF and the question
+        function moveNoButton() {
+            let noButton = document.getElementById("noButton");
+            let gifContainer = document.getElementById("gifContainer");
+            let question = document.getElementById("question1");
+
+            // Show the sad cat GIF
+            gifContainer.classList.remove("hidden");
+
+            // Get the positions of the GIF and the question
+            let gifRect = gifContainer.getBoundingClientRect();
+            let questionRect = question.getBoundingClientRect();
+            let containerRect = document.querySelector(".container").getBoundingClientRect();
+
+            // Define the range for the "No" button to stay on top of the GIF and the question
+            let minX = Math.min(gifRect.left, questionRect.left) - containerRect.left;
+            let maxX = Math.max(gifRect.right, questionRect.right) - containerRect.left - noButton.offsetWidth;
+            let minY = Math.min(gifRect.top, questionRect.top) - containerRect.top - noButton.offsetHeight;
+            let maxY = Math.max(gifRect.top, questionRect.top) - containerRect.top;
+
+            // Randomize the new position within the calculated range
+            let randomX = Math.random() * (maxX - minX) + minX;
+            let randomY = Math.random() * (maxY - minY) + minY;
+
+            // Set the new position of the "No" button
+            noButton.style.left = randomX + "px";
+            noButton.style.top = randomY + "px";
+        }
+
+        // Move the "Yes" button under the word "my" in the question
+        function moveYesButton() {
+            let yesButton = document.getElementById("yesButton");
+            yesButton.style.position = "static";
+            yesButton.style.marginTop = "20px";
+        }
+
+        // Add click event listener to the "No" button
+        document.getElementById("noButton").addEventListener("click", () => {
+            moveNoButton(); // Move the "No" button
+            moveYesButton(); // Move the "Yes" button under "my"
+        });
+    </script>
+</body>
+</html>
